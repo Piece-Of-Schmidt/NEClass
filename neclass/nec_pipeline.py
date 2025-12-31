@@ -1,4 +1,3 @@
-# nec_pipeline.py
 from .neclass import EntityClassifier
 from typing import List, Dict, Any, Optional, Union, Tuple
 from transformers import pipeline
@@ -198,4 +197,5 @@ class NECPipeline:
                 curr = next_ent.copy()
         
         merged.append(curr)
+
         return merged
