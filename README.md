@@ -1,19 +1,28 @@
 # NEClass: A Lightweight LLM Pipeline for Context-Dependent Entity Classification
 
-**NEClass** is a specialized NLP pipeline designed to bridge the gap between coarse-grained Named Entity Recognition (NER) and fine-grained, context-sensitive classification. While standard NER systems only identify categories like `PER` or `LOC`, NEClass uses fine-tuned Large Language Models (LLMs) to assign entities to specific labels (e.g., country affiliation or thematic ressort) based on their surrounding context.
+**NEClass** (Named Entity Classification) is a specialized NLP pipeline designed to bridge the gap between coarse-grained Named Entity Recognition (NER) and fine-grained, context-sensitive classification. While standard NER systems only identify categories like `PER` or `LOC`, NEClass uses fine-tuned Large Language Models (LLMs) to assign entities to specific labels (e.g., country affiliation or thematic ressort) based on their surrounding context.
+
+### 🧠 Specialized Models
+
+The pipeline is designed to work exclusively with the following fine-tuned models from [Hugging Face](https://huggingface.co/Piece-Of-Schmidt). Choose the model that fits your research question:
+
+| Model Task | Path | Use Case |
+| --- | --- | --- |
+| **Location Classification** | `Piece-Of-Schmidt/NEClass_location` | Use this to map entities (like "Dubai" or "The White House") to their respective **geographical or political country/region**. |
+| **Ressort Classification** | `Piece-Of-Schmidt/NEClass_ressort` | Use this to classify entities into **thematic domains** (e.g., politics, economy, sport) based on their functional role in the text. |
+
+*Note: The pipeline logic (prompting & post-processing) is specifically optimized for these Gemma-3-4b-it based models.*
 
 ## 🚀 Key Features
 
-* **Context-Aware**: Distinguishes between entities based on their role in a sentence (e.g., "Germany" as a location vs. "Germany" as a political actor).
+* **Context-Aware**: Distinguishes between entities based on their role in a sentence (e.g., "Germany" as a geographical location vs. "Germany" as a political actor in a sports or political context).
 * **Lightweight & Fast**: Optimized with **Unsloth** and **4-bit quantization** for high-speed inference on consumer-grade GPUs.
-* **End-to-End Pipeline**: Handles text splitting, NER extraction, context windowing, and LLM classification in a single call.
-* **Flexible**: Compatible with any Hugging Face NER model and various fine-tuned LLMs.
+* **End-to-End Pipeline**: Handles intelligent text splitting (preserving sentence boundaries), NER extraction, and LLM classification in a single call.
+* **NER-Agnostic**: While the classifier is fixed, the initial extraction is compatible with most Hugging Face NER models (defaulting to RoBERTa-multilingual).
 
 ---
 
 ## 📦 Installation
-
-NEClass is optimized for Linux and Google Colab environments with NVIDIA GPUs.
 
 ```bash
 # 1. Install optimized dependencies
@@ -29,7 +38,7 @@ pip install git+https://github.com/Piece-Of-Schmidt/NEClass.git
 
 ## 🛠 Usage
 
-NEClass is designed for simplicity. You can change parameters like `context_size` or `batch_size` on the fly without reloading the models.
+NEClass is designed for simplicity. Simply change parameters like `context_size` or `batch_size` on the fly. Long documents are automatically split so they fit in the NER model's context window (default: 512 tokens).
 
 ```python
 from neclass import NECPipeline
@@ -48,8 +57,8 @@ texts = [
 # Run inference
 results = pipe(
     texts, 
-    context_size=80, 
-    batch_size=16, 
+    context_size=80, # n characters (left and right of identified NE) that are included in LLM prompt for classification
+    batch_size=16,
     include_probabilities=True
 )
 
@@ -57,26 +66,6 @@ import pandas as pd
 print(pd.DataFrame(results))
 
 ```
-
-### Advanced: Handling Large Documents
-
-NEClass includes a smart splitter that ensures texts fit into the LLM's context window without cutting words or entities in half:
-
-```python
-results = pipe(long_document_list, split_long_texts=True, max_seq_len=512)
-
-```
-
----
-
-## 📊 Models
-
-Models are available on [Hugging Face](https://huggingface.co/Piece-Of-Schmidt):
-
-| Model Task | Base Model | Path |
-| --- | --- | --- |
-| **Location Classification** | Gemma-3-4b-it | `Piece-Of-Schmidt/NEClass_location` |
-| **Ressort Classification** | Gemma-3-4b-it | `Piece-Of-Schmidt/NEClass_ressort` |
 
 ---
 
