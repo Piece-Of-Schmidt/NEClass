@@ -21,7 +21,7 @@ pip install -q "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.gi
 pip install -q --no-deps "xformers<0.0.27" "trl<0.9.0" peft accelerate bitsandbytes
 
 # 2. Install NEClass
-pip install git+https://github.com/YOUR_USERNAME/neclass.git
+pip install git+https://github.com/Piece-Of-Schmidt/NEClass.git
 
 ```
 
