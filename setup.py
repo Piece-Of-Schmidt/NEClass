@@ -10,8 +10,6 @@ setup(
     packages=find_packages(),
     install_requires=[
         "transformers>=4.40.1",
-        "accelerate",
-        "bitsandbytes",
         "pandas",
         "tqdm"
     ],
