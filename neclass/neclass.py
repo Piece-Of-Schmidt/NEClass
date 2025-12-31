@@ -1,4 +1,3 @@
-# neclass.py
 from unsloth import FastModel
 from typing import List, Tuple, Union, Optional, Any, Dict
 import math
@@ -208,3 +207,4 @@ class EntityClassifier:
     #                 chunk_text = self.tokenizer.decode(chunk_ids)
     #                 out.append({"idx": idx, "text": chunk_text})
     #     return out
+
