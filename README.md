@@ -78,10 +78,10 @@ NEClass combines a multilingual RoBERTa-based NER model with a LoRA-fine-tuned *
 If you use NEClass in your research, please cite:
 
 ```bibtex
-@article{schmidt2024neclass,
+@article{schmidt2026neclass,
   title={NEClass: A Lightweight LLM Pipeline for Context-Dependent Named Entity Classification},
   author={Schmidt, Tobias and Hornig, Nico},
-  journal={Draft Version / TU Dortmund University},
+  journal={Working Paper / TU Dortmund University},
   year={2026}
 }
 
