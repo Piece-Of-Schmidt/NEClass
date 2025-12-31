@@ -1,4 +1,3 @@
-from unsloth import FastModel
 from typing import List, Tuple, Union, Optional, Any, Dict
 import math
 import torch
@@ -26,6 +25,10 @@ class EntityClassifier:
         """
         Loads the LLM. Heavy lifting happens here once.
         """
+        
+        # lazy import
+        from unsloth import FastModel
+        
         os.environ["TRANSFORMERS_VERBOSITY"] = "error"
         
         self.device = device
@@ -207,4 +210,5 @@ class EntityClassifier:
     #                 chunk_text = self.tokenizer.decode(chunk_ids)
     #                 out.append({"idx": idx, "text": chunk_text})
     #     return out
+
 
