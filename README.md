@@ -18,7 +18,8 @@ The pipeline is designed to work exclusively with the following fine-tuned model
 * **Context-Aware**: Distinguishes between entities based on their role in a sentence (e.g., "Germany" as a geographical location vs. "Germany" as a political actor in a sports or political context).
 * **Lightweight & Fast**: Optimized with **Unsloth** and **4-bit quantization** for high-speed inference on consumer-grade GPUs.
 * **End-to-End Pipeline**: Handles intelligent text splitting (preserving sentence boundaries), NER extraction, and LLM classification in a single call.
-* **NER-Agnostic**: While the classifier is fixed, the initial extraction is compatible with most Hugging Face NER models (defaulting to RoBERTa-multilingual).
+* **NER-Agnostic Extraction**: While the classifier is fixed, the initial extraction is compatible with most Hugging Face NER models. By default, it utilizes the multilingual RoBERTa model by [Schelb et al. (2022)](https://dl.acm.org/doi/10.1145/3487553.3524237).
+
 
 ---
 
@@ -73,17 +74,33 @@ print(pd.DataFrame(results))
 
 NEClass combines a multilingual RoBERTa-based NER model with a LoRA-fine-tuned **Gemma** LLM. By injecting a context window of  characters around an entity into the prompt, the model achieves significantly higher accuracy in ambiguous cases compared to zero-shot baselines.
 
-### Citation
+## 📚 References
 
-If you use NEClass in your research, please cite:
+If you use this pipeline, please cite our work and the underlying NER model:
+
+**NEClass (this project):**
 
 ```bibtex
 @article{schmidt2026neclass,
   title={NEClass: A Lightweight LLM Pipeline for Context-Dependent Named Entity Classification},
   author={Schmidt, Tobias and Hornig, Nico},
-  journal={Working Paper / TU Dortmund University},
+  journal={Draft Version / TU Dortmund University},
   year={2026}
 }
+
+```
+
+**Underlying NER Model (Schelb et al.):**
+
+```bibtex
+@inproceedings{schelbECCEEntitycentricCorpus2022,
+    title = {{ECCE}: {Entity}-centric {Corpus} {Exploration} {Using} {Contextual} {Implicit} {Networks}},
+    url = {https://dl.acm.org/doi/10.1145/3487553.3524237},
+    booktitle = {Companion {Proceedings} of the {Web} {Conference} 2022},
+    author = {Schelb, Julian and Ehrmann, Maud and Romanello, Matteo and Spitz, Andreas},
+    year = {2022},
+}
+
 
 ```
 
