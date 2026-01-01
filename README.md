@@ -1,6 +1,6 @@
 # NEClass: A Lightweight LLM Pipeline for Context-Dependent Entity Classification
 
-**NEClass** (Named Entity Classification) is a specialized NLP pipeline designed to bridge the gap between coarse-grained Named Entity Recognition (NER) and fine-grained, context-sensitive classification. While standard NER systems only identify categories like `PER` or `LOC`, NEClass uses fine-tuned Large Language Models (LLMs) to assign entities to specific labels (e.g., country affiliation or thematic ressort) based on their surrounding context.
+**NEClass** (Named Entity Classification) is a specialized NLP pipeline designed to bridge the gap between coarse-grained Named Entity Recognition (NER) and fine-grained, context-sensitive classification. While standard NER systems only identify categories like `PER` or `LOC`, NEClass uses fine-tuned Large Language Models (LLMs; Gemma-3-4b-it) to assign entities to specific labels (e.g., country affiliation or thematic ressort) based on their surrounding context.
 
 ### 🧠 Specialized Models
 
