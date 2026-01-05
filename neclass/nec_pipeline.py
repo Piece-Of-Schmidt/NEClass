@@ -10,8 +10,8 @@ class NECPipeline:
 
     def __init__(
         self,
-        model_path: str = "Piece-Of-Schmidt/NEClass_location",
         ner_model: Union[str, Any] = "julian-schelb/roberta-ner-multilingual",
+        nec_model: str = "Piece-Of-Schmidt/NEClass_location",
         device: str = "cuda",
         load_in_4bit: bool = True,
         use_cache: bool = True,
@@ -39,7 +39,7 @@ class NECPipeline:
 
         # 2. Load LLM Classifier
         self.clf = EntityClassifier(
-            model_path=model_path,
+            nec_model=nec_model,
             max_seq_length=max_seq_length,
             load_in_4bit=load_in_4bit,
             use_cache=use_cache,

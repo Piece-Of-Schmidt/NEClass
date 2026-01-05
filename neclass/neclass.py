@@ -14,7 +14,7 @@ class EntityClassifier:
 
     def __init__(
         self,
-        model_path: str = "Piece-Of-Schmidt/NEClass_location",
+        nec_model: str = "Piece-Of-Schmidt/NEClass_location",
         max_seq_length: int = 1024,
         load_in_4bit: bool = True,
         dtype: Optional[torch.dtype] = None,
@@ -32,12 +32,12 @@ class EntityClassifier:
         os.environ["TRANSFORMERS_VERBOSITY"] = "error"
         
         self.device = device
-        self.model_path = model_path
+        self.nec_model = nec_model
         self.padding_side = padding_side
 
         # Load Model & Tokenizer
         self.model, self.tokenizer = FastModel.from_pretrained(
-            model_name=model_path,
+            model_name=nec_model,
             max_seq_length=max_seq_length,
             load_in_4bit=load_in_4bit,
             dtype=dtype,
@@ -75,7 +75,7 @@ class EntityClassifier:
         all_probs = [] if include_probabilities else None
 
         # Determine task instruction based on model path (simple heuristic)
-        task_instruction = self._task_instructions.get("ressort" if "ressort" in self.model_path else "location")
+        task_instruction = self._task_instructions.get("ressort" if "ressort" in self.nec_model else "location")
 
         # Create Batches
         n_batches = math.ceil(len(prompts) / batch_size)
