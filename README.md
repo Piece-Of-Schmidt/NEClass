@@ -46,8 +46,8 @@ from neclass import NECPipeline
 
 # Initialize the pipeline
 pipe = NECPipeline(
-    model_path="Piece-Of-Schmidt/NEClass_location", # Fine-tuned Classifier
     ner_model="julian-schelb/roberta-ner-multilingual" # Base NER
+    nec_model="Piece-Of-Schmidt/NEClass_location", # Fine-tuned Classifier
 )
 
 texts = [
