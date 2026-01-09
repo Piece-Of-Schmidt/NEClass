@@ -115,8 +115,3 @@ If you use this pipeline, please cite our work and the underlying NER model:
 
 
 ```
-
----
-
-% ## 📄 License
-% This project is licensed under the MIT License
