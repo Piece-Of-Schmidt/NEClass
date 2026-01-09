@@ -118,7 +118,5 @@ If you use this pipeline, please cite our work and the underlying NER model:
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
-
+% ## 📄 License
+% This project is licensed under the MIT License
