@@ -61,7 +61,7 @@ texts = [
 results = pipe(
     texts, 
     context_size=80, # n characters (left and right of identified NE) that are included in LLM prompt for classification
-    batch_size=16,
+    batch_size=2,
     include_probabilities=True
 )
 
