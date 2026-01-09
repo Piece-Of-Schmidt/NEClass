@@ -88,7 +88,7 @@ It allows you to:
 
 ## 📚 References
 
-If you use this pipeline, please cite our work and the underlying NER model:
+Please cite the following paper if you use the NEClass pipeline or the underlying classification models:
 
 **NEClass (this project):**
 
