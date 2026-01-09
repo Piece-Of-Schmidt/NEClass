@@ -72,6 +72,21 @@ print(pd.DataFrame(results))
 
 ---
 
+## 🌊 Analysis & Visualization (R Integration)
+
+Once you have generated your classification data, you likely want to analyze it. We provide a dedicated R package, **[NeclassFlows](https://www.google.com/url?sa=E&source=gmail&q=https://github.com/Piece-Of-Schmidt/NeclassFlows)**, designed to ingest `NEClass` output directly.
+
+It allows you to:
+
+* **Harmonize Labels**: e.g., "Belgium", "Netherlands", "Luxembourg" to "BeNeLux".
+* **Visualize Flows**: Plot attention shifts over time using `ggplot2`.
+* **Identify Top Actors**: Automatically rank the most salient entities per month or quarter.
+* and more
+
+👉 **[Go to NeclassFlows Repository](https://www.google.com/url?sa=E&source=gmail&q=https://github.com/Piece-Of-Schmidt/NeclassFlows)**
+
+---
+
 ## 📝 Methodology & Paper
 
 NEClass combines a multilingual RoBERTa-based NER model with a LoRA-fine-tuned **Gemma** LLM. By injecting a context window of  characters around an entity into the prompt, the model achieves significantly higher accuracy in ambiguous cases compared to zero-shot baselines.
