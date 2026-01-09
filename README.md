@@ -1,6 +1,6 @@
 # NEClass: A Lightweight LLM Pipeline for Context-Dependent Entity Classification
 
-> **R User?** Check out [NeclassFlows](https://github.com/Piece-Of-Schmidt/neclassflows) for downstream analysis and visualization. 🌊
+> **R User?** Check out [neclassflows](https://github.com/Piece-Of-Schmidt/neclassflows) for downstream analysis and visualization. 🌊
 
 **NEClass** (Named Entity Classification) is a specialized NLP pipeline designed to bridge the gap between coarse-grained Named Entity Recognition (NER) and fine-grained, context-sensitive classification. While standard NER systems only identify categories like `PER` or `LOC`, NEClass uses fine-tuned Large Language Models (LLMs; Gemma-3-4b-it) to assign entities to specific labels (e.g., country affiliation) based on their surrounding context.
 
@@ -74,7 +74,7 @@ print(pd.DataFrame(results))
 
 ## 🌊 Analysis & Visualization (R Integration)
 
-Once you have generated your classification data, you likely want to analyze it. We provide a dedicated R package, **[NeclassFlows](https://github.com/Piece-Of-Schmidt/neclassflows)**, designed to ingest `NEClass` output directly.
+Once you have generated your classification data, you likely want to analyze it. We provide a dedicated R package, **[neclassflows](https://github.com/Piece-Of-Schmidt/neclassflows)**, designed to ingest `NEClass` output directly.
 
 It allows you to:
 
