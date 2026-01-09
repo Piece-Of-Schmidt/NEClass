@@ -2,7 +2,7 @@
 
 > **R User?** Check out [NeclassFlows](https://github.com/Piece-Of-Schmidt/NeclassFlows) for downstream analysis and visualization. 🌊
 
-**NEClass** (Named Entity Classification) is a specialized NLP pipeline designed to bridge the gap between coarse-grained Named Entity Recognition (NER) and fine-grained, context-sensitive classification. While standard NER systems only identify categories like `PER` or `LOC`, NEClass uses fine-tuned Large Language Models (LLMs; Gemma-3-4b-it) to assign entities to specific labels (e.g., country affiliation or thematic ressort) based on their surrounding context.
+**NEClass** (Named Entity Classification) is a specialized NLP pipeline designed to bridge the gap between coarse-grained Named Entity Recognition (NER) and fine-grained, context-sensitive classification. While standard NER systems only identify categories like `PER` or `LOC`, NEClass uses fine-tuned Large Language Models (LLMs; Gemma-3-4b-it) to assign entities to specific labels (e.g., country affiliation) based on their surrounding context.
 
 ### 🧠 Specialized Models
 
@@ -11,16 +11,16 @@ The pipeline is designed to work exclusively with the following fine-tuned model
 | Model Task | Path | Use Case |
 | --- | --- | --- |
 | **Location Classification** | `Piece-Of-Schmidt/NEClass_location` | Use this to map entities (like "Dubai" or "The White House") to their respective **geographical or political country/region**. |
-| **Ressort Classification** | `Piece-Of-Schmidt/NEClass_ressort` | Use this to classify entities into **thematic domains** (e.g., politics, economy, sport) based on their functional role in the text. |
+| **Ressort Classification** | `Piece-Of-Schmidt/NEClass_ressort` | *Experimental!*: Use this to classify entities into **thematic domains** (e.g., politics, economy, sport) based on their functional role in the text. |
 
 *Note: The pipeline logic (prompting & post-processing) is specifically optimized for these Gemma-3-4b-it based models.*
 
 ## 🚀 Key Features
 
-* **Context-Aware**: Distinguishes between entities based on their role in a sentence (e.g., "Germany" as a geographical location vs. "Germany" as a political actor in a sports or political context).
-* **Lightweight & Fast**: Optimized with **Unsloth** and **4-bit quantization** for high-speed inference on consumer-grade GPUs.
-* **End-to-End Pipeline**: Handles intelligent text splitting (preserving sentence boundaries), NER extraction, and LLM classification in a single call.
-* **NER-Agnostic Extraction**: While the classifier is fixed, the initial extraction is compatible with most Hugging Face NER models. By default, it utilizes the multilingual RoBERTa model by [Schelb et al. (2022)](https://dl.acm.org/doi/10.1145/3487553.3524237).
+* **Context-Aware**: Makes it possible to assign broader entities such as "President" based on the context.
+* **Lightweight & Fast**: Optimized with **Unsloth** and **4-bit quantization** for fast inference on consumer-grade GPUs (or Google Colab).
+* **End-to-End Pipeline**: Handles text splitting, NER extraction, and LLM classification in a single call.
+* **NER-Agnostic Extraction**: While the classifier is fixed, the initial NER is compatible with most Hugging Face NER models. By default, it utilizes the multilingual RoBERTa model by [Schelb et al. (2022)](https://dl.acm.org/doi/10.1145/3487553.3524237).
 
 
 ---
