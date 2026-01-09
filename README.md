@@ -100,7 +100,7 @@ If you use this pipeline, please cite our work and the underlying NER model:
 ```bibtex
 @article{schmidt2026neclass,
   title={NEClass: A Lightweight LLM Pipeline for Context-Dependent Named Entity Classification},
-  author={Schmidt, Tobias and Hornig, Nico},
+  author={Schmidt, Tobias},
   journal={Draft Version / TU Dortmund University},
   year={2026}
 }
