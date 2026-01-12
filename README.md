@@ -88,6 +88,7 @@ It allows you to:
 
 ## 📚 References
 
+<!--
 Please cite the following paper if you use the NEClass pipeline or the underlying classification models:
 
 **NEClass (this project):**
@@ -101,6 +102,7 @@ Please cite the following paper if you use the NEClass pipeline or the underlyin
 }
 
 ```
+-->
 
 **Underlying NER Model (Schelb et al.):**
 
