@@ -53,7 +53,7 @@ pipe = NECPipeline(
 )
 
 texts = [
-    "Angela Merkel enjoys eating fish buns with Emmanuel Macron in Dubai.",
+    "Angela Merkel met Emmanuel Macron in Dubai.",
     "The match between Tunisia and Morocco ended 5:1."
 ]
 
@@ -74,7 +74,7 @@ print(pd.DataFrame(results))
 
 ## 🌊 Analysis & Visualization (R Integration)
 
-Once you have generated your classification data, you likely want to analyze it. We provide a dedicated R package, **[neclassflows](https://github.com/Piece-Of-Schmidt/neclassflows)**, designed to ingest `NEClass` output directly.
+Once you have generated your classification data, you likely want to analyze it. Please check out the dedicated R package, **[neclassflows](https://github.com/Piece-Of-Schmidt/neclassflows)**, designed to ingest `NEClass` output directly.
 
 It allows you to:
 
