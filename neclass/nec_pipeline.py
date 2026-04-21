@@ -55,6 +55,7 @@ class NECPipeline:
         merge_adjacent: bool = True,
         split_long_texts: bool = True,
         include_probabilities: bool = True,
+        confidence_threshold: Optional[float] = None,
         return_prompts: bool = False,
         ner_keys: Dict[str, str] = None, 
         **kwargs
@@ -138,6 +139,11 @@ class NECPipeline:
             if include_probabilities and probs:
                 for ent, p in zip(flat_entities, probs):
                     ent["label_prob"] = p
+
+            if confidence_threshold is not None and include_probabilities and probs:
+                for ent in flat_entities:
+                    if ent.get("label_prob", 1.0) < confidence_threshold:
+                        ent["label"] = "unk"
 
         return (flat_entities, prompts) if return_prompts else flat_entities
 
