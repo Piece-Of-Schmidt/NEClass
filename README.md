@@ -1,4 +1,4 @@
-# NEClass: A Lightweight LLM Pipeline for Context-Dependent Entity Classification
+# NEClass: A Lightweight LLM Pipeline for Measuring Foreign News Coverage
 
 > **R User?** Check out [neclassflows](https://github.com/Piece-Of-Schmidt/neclassflows) for downstream analysis and visualization. 🌊
 
@@ -41,7 +41,7 @@ pip install -q git+https://github.com/Piece-Of-Schmidt/NEClass.git
 
 ## 🛠 Usage
 
-NEClass is designed for simplicity. Simply change parameters like `context_size` or `batch_size` on the fly. Long documents are automatically split so they fit in the NER model's context window (default: 512 tokens).
+NEClass is designed for simplicity. Simply change parameters like `context_size` or `batch_size` on the fly. Long documents are automatically split so they fit in the NER model's context window (default: 510 tokens, leaving room for the model's special tokens).
 
 ```python
 from neclass import NECPipeline
@@ -88,21 +88,20 @@ It allows you to:
 
 ## 📚 References
 
-<!--
 Please cite the following paper if you use the NEClass pipeline or the underlying classification models:
 
 **NEClass (this project):**
 
 ```bibtex
 @article{schmidt2026neclass,
-  title={NEClass: A Lightweight LLM Pipeline for Context-Dependent Named Entity Classification},
+  title={NEClass: A Lightweight LLM Pipeline for Measuring Foreign News Coverage},
   author={Schmidt, Tobias},
-  journal={Draft Version / TU Dortmund University},
+  journal={Communication Methods and Measures},
+  note={In press},
   year={2026}
 }
 
 ```
--->
 
 **Underlying NER Model (Schelb et al.):**
 
