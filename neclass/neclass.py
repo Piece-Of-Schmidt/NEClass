@@ -1,7 +1,6 @@
 from typing import List, Tuple, Union, Optional, Any, Dict
 import math
 import torch
-import warnings
 import os
 import re
 import torch.nn.functional as F
@@ -44,10 +43,13 @@ class EntityClassifier:
         )
         FastModel.for_inference(self.model)
         self.model.config.use_cache = use_cache
-        self.model.to(self.device)
+        if not load_in_4bit:
+            # quantized models are already placed on the GPU and must not be moved
+            self.model.to(self.device)
         self.tokenizer.padding_side = padding_side
 
         # Task definitions mapping
+        # NOTE: instructions must match the fine-tuning prompts verbatim
         self._task_instructions = {
             "location": (
                 "Your task is to classify the provided Named Entity in terms of its Location, that is, the country/region that this entity is most closely assiciated with. Use the provided surrounding context as decision support whenever available."
@@ -131,84 +133,70 @@ class EntityClassifier:
 
         return all_labels, all_probs
 
-    def texts_to_paragraphs(self, texts: List[str], max_seq_len: int = 512) -> List[Dict[str, Any]]:
+    def texts_to_paragraphs(self, texts: List[str], max_seq_len: int = 510, tokenizer: Optional[Any] = None) -> List[Dict[str, Any]]:
         """
-        Splits texts at sentence boundaries. 
+        Splits texts at sentence boundaries.
         Guarantees that no output chunk exceeds max_seq_len tokens.
+        Token counts are based on the provided tokenizer (e.g. the NER model's,
+        which also needs room for its special tokens); defaults to the LLM tokenizer.
         """
+        if tokenizer is None:
+            tokenizer = self.tokenizer
+
         out = []
         for idx, text in enumerate(texts):
             # 1. Tokenize full text
-            full_res = self.tokenizer(text=text, add_special_tokens=False)["input_ids"]
+            full_res = tokenizer(text=text, add_special_tokens=False)["input_ids"]
             # Ensure flat list
             full_ids = full_res[0] if (len(full_res) > 0 and isinstance(full_res[0], list)) else full_res
-            
+
             if len(full_ids) <= max_seq_len:
                 out.append({"idx": idx, "text": text})
                 continue
 
-            # 2. Split at linebreak
+            # 2. Split at sentence boundaries
             segments = re.split(r'(?<=[.!?\n])\s+', text)
-            
-            current_chunk_ids = []
-            
+
+            current_segs = []
+            current_len = 0
+
             for seg in segments:
                 if not seg.strip(): continue
-                
+
                 # Tokenize segment
-                res = self.tokenizer(text=seg, add_special_tokens=False)["input_ids"]
+                res = tokenizer(text=seg, add_special_tokens=False)["input_ids"]
                 seg_ids = res[0] if (len(res) > 0 and isinstance(res[0], list)) else res
-                seg_ids = [int(i) for i in seg_ids] 
-                
+                seg_ids = [int(i) for i in seg_ids]
+
                 seg_len = len(seg_ids)
-                
+
                 # If segment is too long on its own
                 if seg_len > max_seq_len:
-                    
-                    if current_chunk_ids:
-                        out.append({"idx": idx, "text": self.tokenizer.decode(current_chunk_ids, skip_special_tokens=True).strip()})
-                        current_chunk_ids = []
-                    
+
+                    if current_segs:
+                        out.append({"idx": idx, "text": " ".join(current_segs)})
+                        current_segs = []
+                        current_len = 0
+
                     # Hard split overly long snippet
                     for i in range(0, seg_len, max_seq_len):
                         sub_ids = seg_ids[i : i + max_seq_len]
-                        out.append({"idx": idx, "text": self.tokenizer.decode(sub_ids, skip_special_tokens=True).strip()})
+                        out.append({"idx": idx, "text": tokenizer.decode(sub_ids, skip_special_tokens=True).strip()})
                     continue
 
                 # Check if segment fits
-                if len(current_chunk_ids) + seg_len > max_seq_len:
-                    out.append({"idx": idx, "text": self.tokenizer.decode(current_chunk_ids, skip_special_tokens=True).strip()})
-                    current_chunk_ids = seg_ids
+                if current_len + seg_len > max_seq_len:
+                    out.append({"idx": idx, "text": " ".join(current_segs)})
+                    current_segs = [seg]
+                    current_len = seg_len
                 else:
-                    current_chunk_ids.extend(seg_ids)
-            
-            # return
-            if current_chunk_ids:
-                out.append({"idx": idx, "text": self.tokenizer.decode(current_chunk_ids, skip_special_tokens=True).strip()})
-                
-        return out
-    
+                    current_segs.append(seg)
+                    current_len += seg_len
 
-    # def texts_to_paragraphs(self, texts: List[str], max_seq_len: int = 512) -> List[Dict[str, Any]]:
-    #     """Helper to split long texts based on token count."""
-    #     # Simple splitting logic
-    #     out = []
-    #     for idx, text in enumerate(texts):
-    #         # Very rough estimation. Check length string-wise first to avoid tokenizing short texts
-    #         if len(text) < max_seq_len * 2: 
-    #             out.append({"idx": idx, "text": text})
-    #             continue
-                
-    #         # Tokenize only if necessary
-    #         tokens = self.tokenizer(text=text, add_special_tokens=False)["input_ids"]
-    #         if len(tokens) <= max_seq_len:
-    #             out.append({"idx": idx, "text": text})
-    #         else:
-    #             # Chunking
-    #             for i in range(0, len(tokens), max_seq_len):
-    #                 chunk_ids = tokens[i : i + max_seq_len]
-    #                 chunk_text = self.tokenizer.decode(chunk_ids)
-    #                 out.append({"idx": idx, "text": chunk_text})
-    #     return out
+            # return
+            if current_segs:
+                out.append({"idx": idx, "text": " ".join(current_segs)})
+
+        return out
 
 
