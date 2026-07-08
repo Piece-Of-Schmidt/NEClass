@@ -1,3 +1,14 @@
+import logging
+import warnings
+
+logging.getLogger("torchao").setLevel(logging.ERROR)
+warnings.filterwarnings("ignore", category=FutureWarning, module=r"bitsandbytes.*")
+
+import os
+os.environ["TRANSFORMERS_VERBOSITY"] = "error"
+
+import unsloth
+
 from .neclass import EntityClassifier
 from typing import List, Dict, Any, Optional, Union, Tuple
 from transformers import pipeline
