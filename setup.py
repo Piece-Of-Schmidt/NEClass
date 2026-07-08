@@ -1,6 +1,5 @@
 # setup.py
 from setuptools import setup, find_packages
-import os
 
 setup(
     name="neclass",
@@ -9,9 +8,8 @@ setup(
     description="Context-Dependent Named Entity Classification using LLMs",
     packages=find_packages(),
     install_requires=[
-        "transformers>=4.40.1",
-        "pandas",
-        "tqdm"
+        "torch",
+        "transformers>=4.45.0"
     ],
     python_requires='>=3.9',
 )
