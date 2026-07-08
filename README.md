@@ -51,7 +51,12 @@ pipe = NECPipeline(
     ner_model="julian-schelb/roberta-ner-multilingual", # Base NER
     nec_model="Piece-Of-Schmidt/NEClass_location" # Fine-tuned Classifier
 )
+```
 
+After loading model and tokenizer, you can run inference using the pipe.
+⏱️ Note: The very first inference call can take up to ~2 minutes while CUDA/Triton kernels are compiled and cached for your input shapes — every call afterwards runs significantly faster.
+
+```python
 texts = [
     "Angela Merkel met Emmanuel Macron in Dubai.",
     "The match between Tunisia and Morocco ended 5:1."
