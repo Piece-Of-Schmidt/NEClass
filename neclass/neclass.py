@@ -1,9 +1,9 @@
 from typing import List, Tuple, Union, Optional, Any, Dict
 import math
 import torch
-import os
 import re
 import torch.nn.functional as F
+from unsloth import FastModel
 
 class EntityClassifier:
     """
@@ -24,12 +24,7 @@ class EntityClassifier:
         """
         Loads the LLM. Heavy lifting happens here once.
         """
-        
-        # lazy import
-        from unsloth import FastModel
-        
-        os.environ["TRANSFORMERS_VERBOSITY"] = "error"
-        
+
         self.device = device
         self.nec_model = nec_model
         self.padding_side = padding_side
