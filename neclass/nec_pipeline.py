@@ -77,8 +77,11 @@ class NECPipeline:
             texts = [texts]
 
         # A. Preprocessing (Text Splitting)
+        # Chunk sizes are measured with the NER tokenizer so that no chunk
+        # exceeds the NER model's context window
         if split_long_texts:
-            segments = self.clf.texts_to_paragraphs(texts)
+            split_tokenizer = None if self.is_custom_ner else self.ner_pipe.tokenizer
+            segments = self.clf.texts_to_paragraphs(texts, tokenizer=split_tokenizer)
             processing_texts = [s["text"] for s in segments]
             doc_ids = [s["idx"] for s in segments]
         else:
@@ -103,10 +106,10 @@ class NECPipeline:
 
             for ent in entities:
                 raw_word = ent.get(keys["word"], "")
-                if not raw_word or len(raw_word) < min_entity_length:
+                word = raw_word.strip() if raw_word else ""
+                if not word or len(word) < min_entity_length:
                     continue
-                
-                word = raw_word.strip()
+
                 try:
                     e_start = int(ent.get(keys["start"], 0))
                     e_end   = int(ent.get(keys["end"], 0))
